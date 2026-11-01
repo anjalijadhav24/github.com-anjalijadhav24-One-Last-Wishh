@@ -1,12 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0820">
+<title>A Little Birthday Surprise 🎁</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0820;--pink:#ff8fc7;--purple:#a98bff;--text:#f3eeff;--muted:#b9b0d9;--card:rgba(255,255,255,.07);--line:rgba(255,255,255,.14);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(ellipse at 20% 0%,#2a1450 0%,transparent 55%),radial-gradient(ellipse at 90% 100%,#3a1346 0%,transparent 50%),var(--bg);color:var(--text);font-family:Poppins,system-ui,sans-serif;overflow:hidden}
+#bg1,#bg2{position:fixed;inset:-30px;z-index:0;background-size:cover;background-position:center;filter:blur(5px) brightness(.5) saturate(1.1);transition:opacity 1.2s;pointer-events:none}
+#bg1{opacity:.95}#bg2{opacity:0}body.p2 #bg1{opacity:0}body.p2 #bg2{opacity:.95}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.fl{position:absolute;bottom:-30px;animation:rise linear forwards;opacity:.8}
+@keyframes rise{to{transform:translateY(-110vh) translateX(var(--dx));opacity:0}}
+.cf{position:absolute;top:-12px;width:8px;height:12px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+#top{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;padding:12px 18px 0}
+#bar{height:3px;background:var(--line);border-radius:3px;overflow:hidden}
+#fill{height:100%;width:12.5%;background:linear-gradient(90deg,var(--purple),var(--pink));transition:width .5s}
+#count{font-size:11px;color:var(--muted);text-align:right;margin-top:6px;letter-spacing:.08em}
+main{position:relative;z-index:2;height:100%}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 20px 24px;text-align:center;opacity:0;visibility:hidden;transform:translateY(18px) scale(.98);transition:opacity .6s,transform .6s,visibility .6s;overflow-y:auto}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.wrap{width:100%;max-width:460px;margin:auto}
+h1,h2{font-family:'Playfair Display',serif;margin:0 0 14px;line-height:1.2;text-shadow:0 0 22px rgba(255,143,199,.55)}
+h1{font-size:clamp(28px,8vw,40px)}h2{font-size:clamp(24px,6.5vw,32px)}
+p.sub{color:var(--muted);font-size:15px;line-height:1.6;margin:0 0 22px}
+.btn{font:500 15px Poppins,sans-serif;color:#1a0f33;background:linear-gradient(135deg,var(--pink),var(--purple));border:0;border-radius:999px;padding:13px 30px;cursor:pointer;box-shadow:0 0 24px rgba(169,139,255,.5);min-height:46px;transition:transform .2s}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line);box-shadow:none}
+.nav{display:flex;gap:12px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+input[type=text],textarea{width:100%;font:16px Poppins,sans-serif;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;outline:0}
+input[type=text]{text-align:center;letter-spacing:.15em;font-size:20px}
+input:focus,textarea:focus{border-color:var(--pink);box-shadow:0 0 16px rgba(255,143,199,.35)}
+#err{min-height:22px;margin:10px 0 14px;color:var(--pink);font-size:14px}
+.shake{animation:sh .4s}
+@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.big{font-size:56px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.letter{max-height:62vh;max-height:62dvh;overflow-y:auto;text-align:left;background:rgba(20,10,40,.55);border:1px solid var(--line);border-radius:18px;padding:20px;scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+.letter p{font-family:Caveat,cursive;font-size:21px;line-height:1.45;margin:0 0 14px;color:#fbf6ff}
+.letter p:last-child{margin:0}
+.card,.wish{background:rgba(20,10,40,.55);border:1px solid var(--line);border-radius:16px;padding:15px 18px;margin:0 0 12px;text-align:left;font-size:16px;opacity:0;transform:translateY(16px)}
+.on .card,.on .wish{animation:in .7s forwards}
+.on .card:nth-child(1),.on .wish:nth-child(1){animation-delay:.2s}.on .card:nth-child(2),.on .wish:nth-child(2){animation-delay:.55s}.on .card:nth-child(3),.on .wish:nth-child(3){animation-delay:.9s}.on .card:nth-child(4),.on .wish:nth-child(4){animation-delay:1.25s}
+@keyframes in{to{opacity:1;transform:none}}
+.wish{border-left:3px solid var(--pink)}
+.note{color:var(--muted);font-size:13px;line-height:1.5}
+.song{font-family:'Playfair Display',serif;font-size:22px;color:var(--pink);margin:0 0 14px}
+.disc{width:110px;height:110px;margin:0 auto 18px;border-radius:50%;background:conic-gradient(#3a1f6b,#ff8fc7,#3a1f6b,#a98bff,#3a1f6b);display:grid;place-items:center;box-shadow:0 0 30px rgba(255,143,199,.4)}
+.disc::after{content:"";width:26px;height:26px;border-radius:50%;background:var(--bg)}
+.disc.spin{animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.opt{font:14px Poppins,sans-serif;color:var(--text);background:rgba(20,10,40,.55);border:1px solid var(--line);border-radius:14px;padding:14px 8px;cursor:pointer;min-height:54px}
+.opt.sel{border-color:var(--pink);background:rgba(255,143,199,.18);box-shadow:0 0 16px rgba(255,143,199,.4)}
+.bye{font-size:18px;line-height:1.8;margin:0 0 18px}
+.sign{font-family:Caveat,cursive;font-size:30px;color:var(--pink);text-shadow:0 0 18px rgba(255,143,199,.6)}
+a{color:var(--pink)}
+.more{margin-top:18px;text-align:left}.more h3{font:500 13px Poppins,sans-serif;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:0 0 10px;text-align:center}
+.sc{background:rgba(20,10,40,.55);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0 0 10px}
+.sc b{display:block;font-family:'Playfair Display',serif;font-size:17px;color:var(--pink);font-weight:500}.sc span{display:block;color:var(--muted);font-size:13px;margin:2px 0 10px}.sc em{display:block;font-style:normal;font-size:14px;margin:0 0 10px}
+.btn.sm{display:inline-block;text-decoration:none;font-size:13px;padding:9px 18px;min-height:0;color:#1a0f33}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
 </style>
 </head>
 <body>
+<div id="bg1" style="background-image:url('IMG_20261101_125113_057.jpg'),url('IMG_20261101_125113_057.jpeg')"></div>
+<div id="bg2" style="background-image:url('IMG_20261025_220756.jpg')"></div>
 <canvas id="stars"></canvas><div id="fx"></div>
 <div id="top"><div id="bar"><div id="fill"></div></div><div id="count">1 / 8</div></div>
 <main>
 
-<section class="slide on" data-i="0"><div class="wrap">
+<section class="slide on"><div class="wrap">
 <div class="big">🎁</div>
 <h1>A Little Birthday Surprise 🎁</h1>
 <p class="sub">Someone has a special message for you...</p>
@@ -15,14 +85,14 @@
 <button class="btn" id="unlock">Unlock 🔓</button>
 </div></section>
 
-<section class="slide" data-i="1"><div class="wrap">
+<section class="slide"><div class="wrap">
 <div class="big">🎂</div>
 <h1>HAPPYYY BIRTHDAY TEJASSS! 🎂</h1>
 <p class="sub">Well, someone just turned a year older! 😭✨</p>
 <div class="nav"><button class="btn ghost" data-go="-1">Back</button><button class="btn" data-go="1">Next</button></div>
 </div></section>
 
-<section class="slide" data-i="2"><div class="wrap">
+<section class="slide"><div class="wrap">
 <div class="letter" id="letter">
 <p>Happy Birthday, Tejas 💫</p>
 <p>Things may not be the same anymore, but I still genuinely wish the best for youhh. :⁠-⁠)</p>
@@ -38,7 +108,7 @@
 <div class="nav"><button class="btn ghost" data-go="-1">Back</button><button class="btn" data-go="1">Next</button></div>
 </div></section>
 
-<section class="slide" data-i="3"><div class="wrap">
+<section class="slide"><div class="wrap">
 <h2>A Few Dreams I Still Remember ✨</h2>
 <div class="card">Becoming an amazing doctor 🩺</div>
 <div class="card">Working in government hospitals 🏥</div>
@@ -48,7 +118,7 @@
 <div class="nav"><button class="btn ghost" data-go="-1">Back</button><button class="btn" data-go="1">Next</button></div>
 </div></section>
 
-<section class="slide" data-i="4"><div class="wrap">
+<section class="slide"><div class="wrap">
 <h2>The Song 🎶</h2>
 <div class="disc" id="disc"></div>
 <div class="song">Tera Mujhse Hai Pehle Ka Naata Koi</div>
@@ -56,10 +126,13 @@
 <audio id="aud" src="song.mp3" preload="none"></audio>
 <button class="btn" id="play">▶ Play</button>
 <p class="note" id="anote" style="margin-top:14px"></p>
+<div class="more"><h3>More songs 🎧</h3>
+<div class="sc"><b>Darasal</b><span>Atif Aslam · Raabta</span><a class="btn sm" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Darasal+Atif+Aslam+Raabta">▶ Listen on YouTube</a></div>
+<div class="sc"><b>Inteha Ho Gayi Intezaar Ki</b><span>Kishore Kumar &amp; Asha Bhosle · Sharaabi</span><em>You once dedicated a special line from this one to me 💗</em><a class="btn sm" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Inteha+Ho+Gayi+Intezaar+Ki+Kishore+Kumar+Asha+Bhosle">▶ Listen on YouTube</a></div></div>
 <div class="nav"><button class="btn ghost" data-go="-1">Back</button><button class="btn" data-go="1">Next</button></div>
 </div></section>
 
-<section class="slide" data-i="5"><div class="wrap">
+<section class="slide"><div class="wrap">
 <h2>A Little More Goodness for You 💗</h2>
 <div class="wish">May you achieve every dream you’ve ever had.</div>
 <div class="wish">May your hard work bring you success.</div>
@@ -68,7 +141,7 @@
 <div class="nav"><button class="btn ghost" data-go="-1">Back</button><button class="btn" data-go="1">Next</button></div>
 </div></section>
 
-<section class="slide" data-i="6"><div class="wrap">
+<section class="slide"><div class="wrap">
 <h2>Okay, now tell me honestly 😭</h2>
 <p class="sub" style="margin-bottom:0">How was this little surprise?</p>
 <div class="opts" id="opts">
@@ -80,11 +153,11 @@
 <textarea id="msg" rows="3" placeholder="Anything you want to say?" aria-label="Anything you want to say?"></textarea>
 <div id="ferr" class="note" style="min-height:20px;margin-top:8px;color:var(--pink)"></div>
 <button class="btn" id="submit">Submit</button>
-<p class="note" id="fnote" style="margin-top:12px">Submitting opens a draft in your email app. You need to press <b>Send</b> there for it to reach Anjali.</p>
+<p class="note" style="margin-top:12px">Submitting opens a draft in your email app. You need to press <b>Send</b> there for it to reach Anjali.</p>
 <div class="nav"><button class="btn ghost" data-go="-1">Back</button><button class="btn" data-go="1">Next</button></div>
 </div></section>
 
-<section class="slide" data-i="7"><div class="wrap">
+<section class="slide"><div class="wrap">
 <div class="big">🎀</div>
 <p class="bye">That's all for today!<br>No comeback announcement, no expectations.<br>Just a little birthday wish from me.<br><br>Take care, Tejas.<br>And have the happiest birthday! 🎀</p>
 <div class="sign">— Anjali 💗</div>
@@ -100,15 +173,12 @@ function show(n){
   slides[cur].classList.remove('on');cur=n;slides[cur].classList.add('on');slides[cur].scrollTop=0;
   document.getElementById('fill').style.width=((n+1)/8*100)+'%';
   document.getElementById('count').textContent=(n+1)+' / 8';
+  document.body.classList.toggle('p2',n>=4);
   if(n===1)confetti();
   if(n!==4)pauseAudio();
 }
-document.addEventListener('click',function(e){
-  var b=e.target.closest('[data-go]');if(b)show(cur+parseInt(b.getAttribute('data-go'),10));
-});
+document.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)show(cur+parseInt(b.getAttribute('data-go'),10));});
 document.getElementById('again').onclick=function(){show(0)};
-
-/* birthday lock: accepts 02-11-2005 (digits only, so 02/11/2005 or 02.11.2005 also work) */
 var dob=document.getElementById('dob'),err=document.getElementById('err');
 dob.addEventListener('input',function(){
   var d=dob.value.replace(/\D/g,'').slice(0,8),o=d;
@@ -122,13 +192,9 @@ function tryUnlock(){
 }
 document.getElementById('unlock').onclick=tryUnlock;
 dob.addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock()});
-
-/* audio: plays only if a real file (song.mp3) or link is connected */
 var a=document.getElementById('aud'),pb=document.getElementById('play'),an=document.getElementById('anote'),disc=document.getElementById('disc');
 function pauseAudio(){if(!a.paused)a.pause()}
-pb.onclick=function(){
-  if(a.paused){var p=a.play();if(p&&p.catch)p.catch(noSong);}else a.pause();
-};
+pb.onclick=function(){if(a.paused){var p=a.play();if(p&&p.catch)p.catch(noSong);}else a.pause();};
 a.addEventListener('play',function(){pb.textContent='⏸ Pause';disc.classList.add('spin');an.textContent=''});
 a.addEventListener('pause',function(){pb.textContent='▶ Play';disc.classList.remove('spin')});
 a.addEventListener('error',noSong);
@@ -136,8 +202,6 @@ function noSong(){
   pb.textContent='▶ Play';disc.classList.remove('spin');
   an.innerHTML='The song file isn’t connected here yet, so nothing is playing. You can <a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=Tera+Mujhse+Hai+Pehle+Ka+Naata+Koi">listen to it on YouTube</a> instead.';
 }
-
-/* feedback: mailto draft (no backend) */
 var reaction='';
 document.getElementById('opts').addEventListener('click',function(e){
   var o=e.target.closest('.opt');if(!o)return;
@@ -151,16 +215,12 @@ document.getElementById('submit').onclick=function(){
   window.location.href='mailto:anjalijadhavj210@gmail.com?subject='+encodeURIComponent('Birthday surprise feedback from Tejas')+'&body='+encodeURIComponent(body);
   fe.style.color='#b9f0c8';fe.textContent='Your email app should open with a draft. Please press Send there to deliver it 💌';
 };
-
-/* starfield */
 var cv=document.getElementById('stars'),cx=cv.getContext('2d'),st=[];
 function size(){cv.width=innerWidth;cv.height=innerHeight;st=[];for(var i=0;i<Math.min(130,innerWidth/4);i++)st.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.4+.3,p:Math.random()*6.28,s:Math.random()*.02+.005});}
 size();addEventListener('resize',size);
 (function draw(){cx.clearRect(0,0,cv.width,cv.height);
   st.forEach(function(s){s.p+=s.s;cx.globalAlpha=.35+.65*Math.abs(Math.sin(s.p));cx.fillStyle='#fff';cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill();});
   requestAnimationFrame(draw);})();
-
-/* floating hearts and confetti */
 var hs=['💗','💜','✨','⭐','💖'];
 setInterval(function(){
   if(document.hidden)return;
@@ -178,5 +238,4 @@ function confetti(){
 })();
 </script>
 </body>
-  </html>
-  
+</html>
